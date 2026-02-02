@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, FlatList, Image, StyleSheet, Text, View} from 'react-native';
+import {ActivityIndicator, Button, FlatList, Image, StyleSheet, Text, View} from 'react-native';
 import {images} from "@/constants/images";
 import useFetch from "@/services/useFetch";
 import {fetchMovies} from "@/services/api";
 import MovieCard from "@/components/MovieCard";
 import {icons} from "@/constants/icons";
 import SearchBar from "@/components/SearchBar";
+import {updateSearchCount} from "@/services/appwrite";
 
 const Search = () => {
     const [searchQuery, setSearchQuery] = useState("");
@@ -22,18 +23,51 @@ const Search = () => {
         setSearchQuery(text);
     };
 
+    const searchMovies = async (): Promise<void> => {
+        const q = searchQuery.trim();
+
+        if (!q) {
+            reset();
+            return;
+        }
+
+        const result = await loadMovies(); // ✅ result est la vraie liste renvoyée par fetchMovies
+        if (result && Array.isArray(result) && result.length > 0) {
+            await updateSearchCount(q, result[0], result); // ✅ plus de décalage
+        }
+    };
+
+    /*const searchMoviesOld = async (): Promise<void> => {
+        if (searchQuery.trim()) {
+            await loadMovies();
+
+            if (movies && movies.length > 0) {
+                console.log(movies[0]);
+                await updateSearchCount(searchQuery, movies[0]);
+            }
+        } else {
+            reset();
+        }
+    };*/
+
     // Debounced search effect
-    useEffect(() => {
+    /*useEffect(() => {
         const timeoutId = setTimeout(async () => {
             if (searchQuery.trim()) {
                 await loadMovies();
+
+                // Call updateSearchCount only if there are results
+                if (movies?.length! > 0 && movies?.[0]) {
+                    console.log(movies?.[0]);
+                    await updateSearchCount(searchQuery, movies[0]);
+                }
             } else {
                 reset();
             }
         }, 1200);
 
         return () => clearTimeout(timeoutId);
-    }, [searchQuery]);
+    }, [searchQuery]);*/
     
   return (
       <View className="flex-1 bg-primary">
@@ -68,6 +102,11 @@ const Search = () => {
                             onChangeText={handleSearch}
                         />
                     </View>
+
+                    <Button
+                        onPress={searchMovies}
+                        title="search"
+                    />
 
                     {loading && (
                         <ActivityIndicator
