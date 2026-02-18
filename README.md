@@ -4,6 +4,26 @@ A modern movie discovery application built with **React Native (Expo)**.
 The app integrates **TMDB API** for movie data and **Appwrite** for backend features such as trending tracking and persistence.
 
 
+<table>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/8483392e-39b2-47ea-a495-f9c00773a38e" width="230"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/0640321c-bc6a-4050-b2c6-82d17782f414" width="230"/>
+    </td>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/f5fda006-cec4-4c03-b019-88386999faa7" width="230"/>
+    </td>
+    <td align="center">
+      <img src="https://github.com/user-attachments/assets/122994ac-4334-4f93-9faa-c8f78e00cb77" width="230"/>
+    </td>
+  </tr>
+</table>
+
+
 ## 📱 Overview
 
 Mobile Movie App allows users to:
