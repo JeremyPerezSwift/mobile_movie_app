@@ -1,50 +1,192 @@
-# Welcome to your Expo app 👋
+# 🎬 Mobile Movie App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A modern movie discovery application built with **React Native (Expo)**.  
+The app integrates **TMDB API** for movie data and **Appwrite** for backend features such as trending tracking and persistence.
 
-## Get started
 
-1. Install dependencies
+## 📱 Overview
 
-   ```bash
-   npm install
-   ```
+Mobile Movie App allows users to:
 
-2. Start the app
+- 🔎 Search movies in real time
+- 📈 View trending movies (persisted via Appwrite)
+- 🎞 Browse movie listings with posters and ratings
+- 📄 Access detailed movie information
+- 🎨 Enjoy a clean and modern UI
 
-   ```bash
-   npx expo start
-   ```
+The project focuses on API consumption, backend integration, and scalable mobile architecture.
 
-In the output, you'll find options to open the app in a
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## 🧱 Tech Stack
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+- **Expo**
+- **React Native**
+- **TypeScript**
+- **TMDB API**
+- **Appwrite (Database / Tables)**
+- Custom data fetching hook (`useFetch`)
+- Functional components + Hooks architecture
 
-## Get a fresh project
 
-When you're ready, run:
+## 🏗 Architecture
 
-```bash
-npm run reset-project
+The project follows a modular structure:
+
+```
+components/
+  MovieCard.tsx
+  MoviesSection.tsx
+  SearchBar.tsx
+  TrendingCard.tsx
+
+services/
+  api.ts
+  appwrite.ts
+  useFetch.ts
+
+interfaces/
+  interfaces.d.ts
+
+assets/
+  images/
+  icons/
+  fonts/
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+### 🔹 components/
 
-## Learn more
+Reusable UI components:
+- `MovieCard` → displays movie poster and rating
+- `TrendingCard` → ranked trending movie UI
+- `SearchBar` → debounced search input
+- `MoviesSection` → grouped movie list section
 
-To learn more about developing your project with Expo, look at the following resources:
+### 🔹 services/
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+- `api.ts` → TMDB API configuration and fetch logic
+- `appwrite.ts` → Appwrite client setup and database interactions
+- `useFetch.ts` → custom reusable fetching hook
 
-## Join the community
+### 🔹 interfaces/
 
-Join our community of developers creating universal apps.
+Centralized TypeScript interfaces for:
+- Movie types
+- API response types
+- Strongly typed data handling
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+
+## 🔎 Core Features
+
+### 🎬 Movie Search
+
+- Uses TMDB `/search/movie` endpoint
+- Encodes query parameters properly
+- Handles API errors
+- Uses custom `useFetch` hook abstraction
+
+### 📈 Trending Logic
+
+When a user searches for a movie:
+- The first result is stored in Appwrite
+- Trending list is fetched from Appwrite database
+- Ensures persistence independent of TMDB
+
+### 🎨 UI/UX
+
+- Custom icons and images
+- Structured sections
+- Clean card-based layout
+- Optimized rendering with proper keys
+
+
+## ⚙️ Installation
+
+### 1️⃣ Clone the repository
+
+```
+git clone <your-repository-url>
+cd mobile_movie_app
+```
+
+### 2️⃣ Install dependencies
+
+```
+npm install
+```
+
+
+## 🔐 Environment Variables
+
+Create a `.env.local` file:
+
+```
+EXPO_PUBLIC_TMDB_API_KEY=<your_tmdb_api_key>
+
+EXPO_PUBLIC_APPWRITE_ENDPOINT=https://cloud.appwrite.io/v1
+EXPO_PUBLIC_APPWRITE_PROJECT_ID=<project_id>
+EXPO_PUBLIC_APPWRITE_DATABASE_ID=<database_id>
+EXPO_PUBLIC_APPWRITE_COLLECTION_ID=<collection_id>
+```
+
+⚠️ `EXPO_PUBLIC_` variables are exposed client-side. Do not include private secrets.
+
+
+## ▶️ Running the Project
+
+```
+npx expo start
+```
+
+Then:
+
+- `i` → Run on iOS
+- `a` → Run on Android
+- Or use a development build if required
+
+
+## 🗃️ Backend Configuration (Appwrite)
+
+Required setup:
+
+- Create a Database
+- Create a Collection (e.g. `metrics` or `trending`)
+- Add attributes:
+  - `searchTerm` (string)
+  - `movie_id` (string or number)
+  - `poster_url` (string)
+  - `count` (integer)
+
+Ensure appropriate read/write permissions are configured.
+
+
+## 🧠 Technical Highlights
+
+- Strong TypeScript typing via centralized interfaces
+- Clean separation of UI / API / Backend logic
+- Custom reusable fetch abstraction
+- Scalable component structure
+- Proper async error handling
+- Trending persistence logic decoupled from external API
+
+
+## 📜 Available Scripts
+
+```
+npm run start
+npm run ios
+npm run android
+npm run web
+npm run lint
+```
+
+
+## 🚀 Potential Improvements
+
+- Pagination / infinite scroll
+- Movie detail screen enhancement
+- Favorites with persistence
+- Caching layer
+- Unit testing
+- Performance optimization (memoization, FlashList)
+
+
